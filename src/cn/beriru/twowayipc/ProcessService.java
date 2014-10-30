@@ -54,7 +54,7 @@ public class ProcessService extends Service {
 	private void pongBack(int myPid) {
 		if(remoteMessenger != null){
 			try {
-				remoteMessenger.send(Message.obtain(null, PONG, android.os.Process.myPid(), 0));
+				remoteMessenger.send(Message.obtain(null, PONG, myPid, 0));
 			} catch (RemoteException e) {
 				Log.d(TAG,e.getMessage());
 			}

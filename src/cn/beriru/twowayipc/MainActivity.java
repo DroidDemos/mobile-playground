@@ -28,8 +28,6 @@ public class MainActivity extends Activity {
 	
 	TextView mContent = null;
 	
-	
-	
 	Messenger mLocalMessenger = new Messenger(new Handler(){
 
 		@Override
@@ -46,8 +44,7 @@ public class MainActivity extends Activity {
 		
 	});
 	
-	Messenger mRemoteMessenger;
-	
+	Messenger mRemoteMessenger = null;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +82,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
 				mRemoteMessenger = null;
-				
 			}
 			
 			@Override
@@ -93,6 +89,7 @@ public class MainActivity extends Activity {
 				mRemoteMessenger = new Messenger(service);
 				registerBack();
 			}
+			
 		}, BIND_AUTO_CREATE);
 	}
 

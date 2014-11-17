@@ -1,6 +1,7 @@
-package cn.beriru.twowayipc;
+package cn.beriru.ipc;
 
-import static cn.beriru.twowayipc.ProcessService.PING;
+import static cn.beriru.ipc.ProcessService.*;
+import cn.beriru.twowayipc.R;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -16,15 +17,14 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-import static cn.beriru.twowayipc.ProcessService.*;
 
 
 /**
  * simple two way IPC demo using messenger
  */
-public class MainActivity extends Activity {
+public class IPCActivity extends Activity {
 
-	public final static String TAG = MainActivity.class.getCanonicalName();
+	public final static String TAG = IPCActivity.class.getCanonicalName();
 	
 	TextView mContent = null;
 	

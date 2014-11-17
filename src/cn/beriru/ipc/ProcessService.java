@@ -1,4 +1,4 @@
-package cn.beriru.twowayipc;
+package cn.beriru.ipc;
 
 import android.app.Service;
 import android.content.Intent;

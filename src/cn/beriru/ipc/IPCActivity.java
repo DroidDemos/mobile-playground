@@ -1,7 +1,8 @@
 package cn.beriru.ipc;
 
-import static cn.beriru.ipc.ProcessService.*;
-import cn.beriru.twowayipc.R;
+import static cn.beriru.ipc.ProcessService.PING;
+import static cn.beriru.ipc.ProcessService.PONG;
+import static cn.beriru.ipc.ProcessService.REGISTER;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import cn.beriru.playground.R;
 
 
 /**

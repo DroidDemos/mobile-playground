@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.beriru.twowayipc"
+    package="cn.beriru.playground"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="18" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name="cn.beriru.app.App"
+        >
         <activity
-            android:name="cn.beriru.ipc.IPCActivity"
+            android:name="cn.beriru.entry.EntryActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name="cn.beriru.ipc.IPCActivity" ></activity>
+        <activity android:name="cn.beriru.jni.CallJniActivity" ></activity>
         
         <service android:name="cn.beriru.ipc.ProcessService" android:process=":push">
         </service>

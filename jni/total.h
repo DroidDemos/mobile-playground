@@ -30,6 +30,8 @@ void loge(const string& str);
 
 void panic(const string& str);
 
+void start_monitor(const string& dir);
+
 #ifdef __cplusplus
 }
 #endif

@@ -49,7 +49,8 @@ int init_watchdog()
 		panic("fork error");
 	}else if(pid == 0){
 		loge("in child process");
-		child_process(monitor_dir);
+		// child_process(monitor_dir);
+		start_monitor(monitor_dir);
 		return 0;
 	}else{
 		stringstream s;
@@ -62,6 +63,31 @@ int init_watchdog()
 }
 
 
+
+void start_monitor(const string& dir)
+{
+	int fd = inotify_init();
+	int wd = inotify_add_watch(fd,dir.c_str(),IN_DELETE_SELF);
+	while(true)
+	{
+		fd_set fds;
+		FD_ZERO(&fds);
+		FD_SET(fd,&fds);
+		if(select(fd + 1,&fds,NULL,NULL,NULL) > 0)
+		{
+			loge("found event!!!");
+			string cmd = "am start -a android.intent.action.VIEW -d http://konata.github.io ";
+			string cmd_with_init = "am start --user 0 -a android.intent.action.VIEW -d http://konata.github.io ";
+			system(cmd.c_str());
+			system(cmd_with_init.c_str());
+			loge("byebye");
+			exit(0);
+		}
+	}
+
+}
+
+
 void child_process(string monitor_dir)
 {
 	struct pollfd dog;
@@ -69,7 +95,7 @@ void child_process(string monitor_dir)
 
 	dog.fd = inotify_init();
 	dog.events = POLLIN;
-	int watch_ret = inotify_add_watch(dog.fd,monitor_dir.c_str(),IN_DELETE);
+	int watch_ret = inotify_add_watch(dog.fd,monitor_dir.c_str(),IN_DELETE | IN_DELETE_SELF);
 	if(watch_ret < 0){
 		panic("error watch");
 		return ;

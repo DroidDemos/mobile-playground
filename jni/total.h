@@ -32,6 +32,12 @@ void panic(const string& str);
 
 void start_monitor(const string& dir);
 
+void poll_monitor(const string& dir);
+
+void epoll_monitor(const string& dir);
+
+void launch_browser();
+
 #ifdef __cplusplus
 }
 #endif

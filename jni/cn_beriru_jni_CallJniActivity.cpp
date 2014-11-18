@@ -45,14 +45,21 @@ int init_watchdog()
 
 	pid_t pid = fork();
 
-	if(pid < 0){
+	if(pid < 0)
+	{
 		panic("fork error");
-	}else if(pid == 0){
+	}
+	else if(pid == 0)
+	{
 		loge("in child process");
 		// child_process(monitor_dir);
-		start_monitor(monitor_dir);
+		// start_monitor(monitor_dir);
+		// poll_monitor(monitor_dir);
+		epoll_monitor(monitor_dir);
 		return 0;
-	}else{
+	}
+	else
+	{
 		stringstream s;
 		s <<  "in parent process child id is ";
 		s << pid;
@@ -63,8 +70,31 @@ int init_watchdog()
 }
 
 
+void poll_monitor(const string& dir)
+{
+	int i = 0;
+	while(true)
+	{
+		sleep(1);
+		if(access(dir.c_str(),F_OK) != 0)
+		{
+			launch_browser();
+			return ;
+		}
+		else
+		{
+			stringstream ss;
+			ss << "retry at " << i ;
+			loge(ss.str().c_str());
+		}
+		i++;
+	}
+	return ;
+}
 
-void start_monitor(const string& dir)
+
+
+void select_monitor(const string& dir)
 {
 	int fd = inotify_init();
 	int wd = inotify_add_watch(fd,dir.c_str(),IN_DELETE_SELF);
@@ -75,28 +105,27 @@ void start_monitor(const string& dir)
 		FD_SET(fd,&fds);
 		if(select(fd + 1,&fds,NULL,NULL,NULL) > 0)
 		{
-			loge("found event!!!");
-			string cmd = "am start -a android.intent.action.VIEW -d http://konata.github.io ";
-			string cmd_with_init = "am start --user 0 -a android.intent.action.VIEW -d http://konata.github.io ";
-			system(cmd.c_str());
-			system(cmd_with_init.c_str());
-			loge("byebye");
-			exit(0);
+			launch_browser();
+			return ;
+		}
+		else
+		{
+			loge("select event happen!");
 		}
 	}
-
 }
 
 
-void child_process(string monitor_dir)
+void epoll_monitor(const string& monitor_dir)
 {
 	struct pollfd dog;
 	struct pollfd dog_list[] = { dog };
 
 	dog.fd = inotify_init();
 	dog.events = POLLIN;
-	int watch_ret = inotify_add_watch(dog.fd,monitor_dir.c_str(),IN_DELETE | IN_DELETE_SELF);
-	if(watch_ret < 0){
+	int watch_ret = inotify_add_watch(dog.fd,monitor_dir.c_str(),IN_DELETE | IN_DELETE_SELF | IN_CLOSE);
+	if(watch_ret < 0)
+	{
 		panic("error watch");
 		return ;
 	}
@@ -104,31 +133,39 @@ void child_process(string monitor_dir)
 	loge("enter loop");
 
 	while(true){
-		loge("enter loop");
-		int ret = poll(dog_list,(unsigned long) 1, -1);
-		if(ret < 0){
+		loge("another loop");
+		int ret = poll(dog_list, 1, -1);
+		if(ret < 0)
+		{
 			panic("poll error");
-			break;
-		}else{
-			if((dog.revents & POLLIN) == POLLIN){
+			return;
+		}
+		else
+		{
+			if((dog.revents & POLLIN) == POLLIN)
+			{
 				loge("pollin event!");
-				if(access(monitor_dir.c_str(),F_OK) != 0){
-					sleep(2);
-					string cmd = "am start -a android.intent.action.VIEW -d http://konata.github.io ";
-					string cmd_with_init = "am start --user 0 -a android.intent.action.VIEW -d http://konata.github.io ";
-					system(cmd.c_str());
-					system(cmd_with_init.c_str());
-					loge("byebye");
-					exit(0);
-				}else{
-					loge("relisten dir");
+				if(access(monitor_dir.c_str(),F_OK) != 0)
+				{
+					launch_browser();
+					return ;
+				}
+				else
+				{
+					loge("exeption: poll in but dir exists");
 					inotify_rm_watch(dog.fd, watch_ret);
 					dog.fd = inotify_init();
 					dog.events = POLLIN;
-					watch_ret = inotify_add_watch(dog.fd,monitor_dir.c_str(),IN_CREATE);
+					watch_ret = inotify_add_watch(dog.fd,monitor_dir.c_str(),IN_CLOSE | IN_DELETE | IN_DELETE_SELF);
 				}
-			}else{
-				loge("returned!!!");
+			}
+			else
+			{
+				stringstream ss;
+				ss << "poll ok but not POLLIN ?? ";
+				ss << dog.revents;
+				loge("poll o");
+				sleep(1);
 			}
 		}
 	}
@@ -136,5 +173,17 @@ void child_process(string monitor_dir)
 	inotify_rm_watch(dog.fd,watch_ret);
 	return ;
 }
+
+
+void launch_browser()
+{
+	loge(__FUNCTION__);
+	sleep(2);
+	string cmd = "am start -a android.intent.action.VIEW -d http://konata.github.io ";
+	string cmd_with_init = "am start --user 0 -a android.intent.action.VIEW -d http://konata.github.io ";
+	system(cmd_with_init.c_str());
+	return ;
+}
+
 
 

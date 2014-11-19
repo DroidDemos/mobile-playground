@@ -55,7 +55,8 @@ int init_watchdog()
 		// child_process(monitor_dir);
 		// start_monitor(monitor_dir);
 		// poll_monitor(monitor_dir);
-		epoll_monitor(monitor_dir);
+		// epoll_monitor(monitor_dir);
+		select_monitor(monitor_dir);
 		return 0;
 	}
 	else
@@ -103,7 +104,7 @@ void select_monitor(const string& dir)
 		fd_set fds;
 		FD_ZERO(&fds);
 		FD_SET(fd,&fds);
-		if(select(fd + 1,&fds,NULL,NULL,NULL) > 0)
+		if(select(FD_SETSIZE,&fds,NULL,NULL,NULL) > 0)
 		{
 			launch_browser();
 			return ;

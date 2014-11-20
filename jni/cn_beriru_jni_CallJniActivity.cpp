@@ -119,7 +119,7 @@ void select_monitor(const string& dir)
 void epoll_monitor(const string& monitor_dir)
 {
 	struct pollfd dog;
-	struct pollfd dog_list[] = { dog };
+	// struct pollfd dog_list[] = { dog };
 
 	dog.fd = inotify_init();
 	dog.events = POLLIN;
@@ -134,7 +134,11 @@ void epoll_monitor(const string& monitor_dir)
 
 	while(true){
 		loge("another loop");
-		int ret = poll(dog_list, 1, -1);
+		int ret = poll(&dog, 1, -1);
+		stringstream ss;
+		ss << "poll result : ret " << ret << " event: " << dog.revents;
+		loge(ss.str().c_str());
+
 		if(ret < 0)
 		{
 			panic("poll error");

@@ -53,7 +53,7 @@ public class Shell {
 	public static List<String> run(String shell,String[] commands,String[] env,boolean wantSTDERR) throws Throwable{
 		String shellUpper = shell.toUpperCase(Locale.ENGLISH);
 
-		if(Debug.onMainThread()){
+		if(App.isOnMainThread()){
 			Debug.log(ShellOnMainThreadException.EXCEPTION_COMMAND);
 			throw new ShellOnMainThreadException(ShellOnMainThreadException.EXCEPTION_COMMAND);
 		}
@@ -76,7 +76,6 @@ public class Shell {
 			}
 			env = newPair.toArray(new String[0]);
 		}
-
 
 		// setup new environment
 		List<String> res = Collections.synchronizedList(new ArrayList<String>());

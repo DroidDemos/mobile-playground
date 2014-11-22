@@ -93,15 +93,10 @@ public class Shell {
 			STDIN.flush();
 		}
 
-		try{
-			STDIN.write("exit\n".getBytes("UTF-8"));
-			STDIN.flush();
-		}catch(IOException e){
-
-		}
+		STDIN.write("exit\n".getBytes("UTF-8"));
+		STDIN.flush();
 
 		process.waitFor();
-
 		STDIN.close();
 		STDOUT.join();
 		STDERR.join();

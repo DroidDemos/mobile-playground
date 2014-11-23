@@ -10,8 +10,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import android.util.Log;
-
 import cn.beriru.app.App;
 
 public class Shell {

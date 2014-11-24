@@ -107,10 +107,15 @@ public class Shell {
 		STDERR.join();
 		process.destroy();
 
-		if(Su.isSu(shell) && (process.exitValue() == 255)){
+		if(isSu(shell) && (process.exitValue() == 255)){
 			res = null;
 		}
 		return res;
+	}
+	
+	
+	public static boolean isSu(String cmd){
+		return cmd.toLowerCase(Locale.ENGLISH).trim().equals("su");
 	}
 	
 	

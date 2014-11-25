@@ -27,7 +27,7 @@
         <activity android:name="cn.beriru.ipc.IPCActivity" ></activity>
         <activity android:name="cn.beriru.jni.CallJniActivity" ></activity>
         <activity android:name="cn.beriru.dynamic.DynamicJavaActivity"></activity>
-        
+        <activity android:name="cn.beriru.su.SuEntryActivity"></activity>
 
         <service android:name="cn.beriru.ipc.ProcessService" android:process=":push">
         </service>

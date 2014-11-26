@@ -28,10 +28,36 @@
         <activity android:name="cn.beriru.jni.CallJniActivity" ></activity>
         <activity android:name="cn.beriru.dynamic.DynamicJavaActivity"></activity>
         <activity android:name="cn.beriru.su.SuEntryActivity"></activity>
+        <activity android:name="cn.beriru.alarm.AlarmEntryActivity"></activity>
 
         <service android:name="cn.beriru.ipc.ProcessService" android:process=":push">
         </service>
         
+        <receiver android:name="cn.beriru.alarm.AlarmReceiver" android:process=":alarm">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"/>
+            </intent-filter>
+            
+            <!--  system app only
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.REBOOT"/>
+            </intent-filter>
+             -->
+             
+             
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+            
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            
+        </receiver>
+        
     </application>
+    
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    
 
 </manifest>

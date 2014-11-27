@@ -1,5 +1,6 @@
 package cn.beriru.ipc;
 
+import cn.beriru.app.App;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
@@ -69,5 +70,15 @@ public class ProcessService extends Service {
 	protected void showPingToast(int fromProcess) {
 		Toast.makeText(this, "ping from " + fromProcess + " and perform at " + android.os.Process.myPid(), Toast.LENGTH_SHORT).show();
 	}
+	
+	
+	
+	
+	public static void registerAsSystemService(){
+		
+	}
+	
+	
+	
 	
 }

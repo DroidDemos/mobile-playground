@@ -1,6 +1,7 @@
 package cn.beriru.ipc;
 
-import cn.beriru.app.App;
+import java.lang.ref.WeakReference;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
@@ -22,6 +23,7 @@ public class ProcessService extends Service {
 	
 	protected static final long PONGBACK_INTERVAL = 1000;
 
+	
 	Messenger localMessenger = new Messenger(new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
@@ -72,10 +74,9 @@ public class ProcessService extends Service {
 	}
 	
 	
-	
-	
+	// can not be done
 	public static void registerAsSystemService(){
-		
+		// ServiceManager.addService(name,serviceInstance);
 	}
 	
 	

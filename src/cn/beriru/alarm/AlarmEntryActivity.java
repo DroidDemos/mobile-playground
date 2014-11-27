@@ -60,6 +60,7 @@ public class AlarmEntryActivity extends Activity {
 		int interval = 1000 * 60 * 5;
 		long wakeupTime = System.currentTimeMillis() + interval;
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, wakeupTime, interval , pi);
+		// alarmManager.set(AlarmManager.RTC_WAKEUP, wakeupTime, pi);
 		mTrigger.setText("Clicked");
 		mTrigger.setEnabled(false);
 		

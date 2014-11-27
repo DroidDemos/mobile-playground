@@ -9,7 +9,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import cn.beriru.annotation.InjectView;
 import cn.beriru.annotation.Inspector;
 import cn.beriru.app.App;
@@ -56,7 +55,6 @@ public class SuEntryActivity extends Activity {
 						});
 					}
 				}.start();
-				
 			}
 		});
 		
